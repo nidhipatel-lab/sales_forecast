@@ -56,7 +56,6 @@ def prediction():
         predictions = model.predict(scaled_features)
         
         response = {
-            "data":data.tolist(),
             "predictions": predictions.tolist()
         }
         

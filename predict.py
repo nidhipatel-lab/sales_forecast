@@ -49,7 +49,6 @@ def prediction():
     
     # Response
     response = {
-        "data":data.tolist(),
         "forecasted_sales": forecast_original_scale.tolist(),
         "forecast_confidence_interval_lower": forecast_ci.iloc[:, 0].tolist(),
         "forecast_confidence_interval_upper": forecast_ci.iloc[:, 1].tolist(),
