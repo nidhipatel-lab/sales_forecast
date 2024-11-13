@@ -8,15 +8,15 @@ import numpy as np
 
 app = Flask(__name__)
 
-@app.route('/')
+#@app.route('/')
 def product():
-    return 'Product Sales Forecasting!'
+    return 'SARIMAX Sales Forecasting!'
 
 with open("./artifacts/forecast_sarimax_result.pkl", "rb") as pickle_in:
     loaded_sarimaxResult = pickle.load(pickle_in)
 
 
-@app.route('/predict', methods = ['POST'])
+#@app.route('/predict', methods = ['POST'])
 def prediction():
     data = request.get_json(force=True)
     required_columns = ['Holiday', 'IsDiscount', 'IsWeekend', 'Month', 'Number_of_Orders']
@@ -49,6 +49,7 @@ def prediction():
     
     # Response
     response = {
+        "data":data.tolist(),
         "forecasted_sales": forecast_original_scale.tolist(),
         "forecast_confidence_interval_lower": forecast_ci.iloc[:, 0].tolist(),
         "forecast_confidence_interval_upper": forecast_ci.iloc[:, 1].tolist(),
@@ -58,5 +59,5 @@ def prediction():
     return jsonify(response)
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+#if __name__ == '__main__':
+#    app.run()

@@ -7,6 +7,14 @@ import pandas as pd
 
 app = Flask(__name__)
 
+#@app.route('/reg')
+def rproduct():
+    return 'Regression Sales Forecasting!'
+
+with open("./artifacts/forecast_sarimax_result.pkl", "rb") as pickle_in:
+    loaded_sarimaxResult = pickle.load(pickle_in)
+
+
 model_filename="./artifacts/Regressor.pkl"
 scaler_filename="./artifacts/Regressor_scaler.pkl"
 def load_model_and_scaler(model_filename, scaler_filename):
@@ -22,8 +30,8 @@ def load_model_and_scaler(model_filename, scaler_filename):
         raise Exception(f"Error loading model or scaler: {str(e)}")
 
 
-@app.route('/rpredict', methods=['POST'])
-def rpredict():
+#@app.route('/rpredict', methods=['POST'])
+def prediction():
     try:
         model, scaler = load_model_and_scaler(model_filename, scaler_filename)
 
@@ -48,6 +56,7 @@ def rpredict():
         predictions = model.predict(scaled_features)
         
         response = {
+            "data":data.tolist(),
             "predictions": predictions.tolist()
         }
         
@@ -56,5 +65,6 @@ def rpredict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+#if __name__ == '__main__':
+   # app.run(debug=True, port=5001)
+ #   app.run(port=8001)
